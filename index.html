@@ -47,6 +47,7 @@ th,td{border:1px solid var(--ln);padding:6px 10px;text-align:left}th{background:
 #toast.on{opacity:1}
 @media(max-width:760px){.app{grid-template-columns:1fr}nav{position:static;height:auto;flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--ln)}nav small{display:none}main{padding:16px}}
 @media(prefers-reduced-motion:reduce){#toast{transition:none}}
+.site-footer{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 12px;border-top:1px solid var(--ln);margin-top:32px;padding:18px 0 0;color:var(--mu);font-size:12px;text-align:center}.site-footer a{color:inherit;text-decoration:none}.site-footer a:hover,.site-footer a:focus-visible{color:var(--ac);text-decoration:underline;text-underline-offset:3px}.site-footer .sep{opacity:.55}
 </style>
 </head>
 <body>
@@ -77,6 +78,7 @@ th,td{border:1px solid var(--ln);padding:6px 10px;text-align:left}th{background:
 <ol><li>Mide el diámetro real de la varilla o tornillo con un calibre.</li><li>Define en SolidCraft el diámetro, la holgura diametral y la geometría; diferencia holgura diametral de holgura por lado (la primera es el doble de la segunda en un círculo).</li><li>Imprime las variantes en una misma placa, con el mismo material, orientación prevista y perfil de Bambu Studio.</li><li>Comprueba las medidas, inserción, extracción, retención y desgaste tras varios ciclos.</li><li>Registra la variante y tolerancia que mejor funcionen en tu Bambu Lab A1 Combo.</li></ol>
 <p class="nt">Las geometrías y tolerancias son orientativas: dependen de material, orientación, calibración, altura de capa y uso. Las ilustraciones son esquemáticas, no planos a escala.</p>
 </section>
+<footer class="site-footer" aria-label="Créditos y apoyo al proyecto"><span>3D Lab · <a href="https://bytehive.pro" target="_blank" rel="noopener noreferrer">by Bytehive Lab</a></span><span class="sep" aria-hidden="true">·</span><a href="https://ko-fi.com/arielgoyoaga" target="_blank" rel="noopener noreferrer">☕ Invítame un café</a></footer>
 </main>
 </div>
 <div id="toast" role="status"></div>
