@@ -6,13 +6,13 @@
 
 **Biblioteca visual de conceptos CAD y soluciones para impresión 3D FDM.**
 
-[![Abrir catálogo](https://img.shields.io/badge/▶_ABRIR_CATÁLOGO-0B6E7F?style=for-the-badge&logoColor=white)](https://goyoaga.github.io/3d-lab-recursos/)
+[![Abrir catálogo](https://img.shields.io/static/v1?label=&message=ABRIR%20CATALOGO&color=0B6E7F&style=for-the-badge)](https://goyoaga.github.io/3d-lab-recursos/)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=222)
-![SVG](https://img.shields.io/badge/SVG-FFB13B?style=for-the-badge&logo=svg&logoColor=222)
-![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Hosting-222222?style=for-the-badge&logo=github&logoColor=white)
+![SVG](https://img.shields.io/static/v1?label=&message=SVG&color=FFB13B&style=for-the-badge)
+![GitHub Pages](https://img.shields.io/static/v1?label=&message=GitHub%20Pages&color=24292F&style=for-the-badge&logo=github&logoColor=white)
 
 `📐 Diseño paramétrico` · `🖨️ Impresión FDM` · `🌐 Español / English (terminología)` · `📱 Móvil y escritorio`
 
