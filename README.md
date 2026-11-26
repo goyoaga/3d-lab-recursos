@@ -7,6 +7,7 @@
 **Biblioteca visual de conceptos CAD y soluciones para impresión 3D FDM.**
 
 [![Abrir catálogo](https://img.shields.io/static/v1?label=&message=ABRIR%20CATALOGO&color=0B6E7F&style=for-the-badge)](https://goyoaga.github.io/3d-lab-recursos/)
+[![Apoyar en Ko-fi](https://img.shields.io/static/v1?label=&message=INVITAME%20UN%20CAFE&color=FF5E5B&style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/arielgoyoaga)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css&logoColor=white)
@@ -82,5 +83,7 @@ El catálogo es de acceso público. No se ha establecido todavía una licencia e
 <div align="center">
 
 **3D Lab** · Diseño, ingeniería y fabricación asistida por IA
+
+[by Bytehive Lab](https://bytehive.pro) · [Apoya el proyecto en Ko-fi](https://ko-fi.com/arielgoyoaga)
 
 </div>
