@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo CAD para impresión 3D</title>
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#eef1f4,#12181e);--pn:light-dark(#fff,#1a222a);--ink:light-dark(#1b2733,#e6edf3);--mu:light-dark(#586877,#93a4b3);--ln:light-dark(#cdd7e0,#2c3944);--ac:light-dark(#0b6e7f,#4cc3d6);--hl:light-dark(#d9480f,#ff8a5c);--gr:light-dark(#dfe6ec,#26323c)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,"Segoe UI",sans-serif}
+.app{display:grid;grid-template-columns:210px 1fr;min-height:100vh}
+nav{position:sticky;top:0;height:100vh;padding:20px 14px;border-right:1px solid var(--ln);display:flex;flex-direction:column;gap:6px}
+h1{font:600 21px/1.2 Georgia,"Palatino Linotype",serif;margin:0}
+nav small{color:var(--mu);margin-bottom:14px}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
+.nv{background:none;border:0;text-align:left;padding:8px 10px;border-radius:6px}
+.nv:hover{background:var(--gr)}.nv[aria-current=true]{background:var(--ac);color:#fff}
+:focus-visible{outline:2px solid var(--hl);outline-offset:2px}
+main{padding:22px 28px 60px;max-width:1300px}
+h2{font:600 24px Georgia,serif;margin:0 0 4px}
+.tb{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px;align-items:center}
+.tb input{flex:1;min-width:220px;padding:8px 12px;border:1px solid var(--ln);border-radius:6px;background:var(--pn)}
+.ch{border:1px solid var(--ln);background:var(--pn);border-radius:99px;padding:5px 12px}
+.ch[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.card{background:var(--pn);border:1px solid var(--ln);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.fig{height:116px;background-image:linear-gradient(var(--gr) 1px,transparent 1px),linear-gradient(90deg,var(--gr) 1px,transparent 1px);background-size:12px 12px;border-bottom:1px solid var(--ln);display:grid;place-items:center}
+.fig svg{height:100px;width:auto}
+.b{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.h{fill:none;stroke:var(--hl);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+.in{padding:12px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.card h3{margin:0;font:600 18px Georgia,serif}
+.card h3 span{color:var(--mu);font:400 14px system-ui}
+.card p{margin:0;color:var(--mu);font-size:14px}
+.tp{font-size:13.5px;border-left:3px solid var(--hl);padding:2px 0 2px 9px}
+.ac{display:flex;gap:6px;margin-top:auto;padding-top:4px}
+.bt{border:1px solid var(--ac);background:none;color:var(--ac);border-radius:6px;padding:5px 11px;font-size:14px}
+.tg{margin-top:auto;display:flex;border:1px solid var(--ln);border-radius:99px;padding:3px;width:max-content;background:var(--pn)}
+.tg button{border:0;background:none;border-radius:99px;width:34px;height:30px;display:grid;place-items:center;color:var(--mu)}
+.tg button[aria-pressed=true]{background:var(--ac);color:var(--bg)}
+.tg svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.nt{font-size:13.5px;color:var(--mu)}
+table{border-collapse:collapse;width:100%;background:var(--pn);margin:8px 0 26px;font-size:14px}
+th,td{border:1px solid var(--ln);padding:6px 10px;text-align:left}th{background:var(--gr)}
+.sec{display:none}.sec.on{display:block}
+#toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:6px;opacity:0;transition:opacity .2s;pointer-events:none}
+#toast.on{opacity:1}
+@media(max-width:760px){.app{grid-template-columns:1fr}nav{position:static;height:auto;flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--ln)}nav small{display:none}main{padding:16px}}
+@media(prefers-reduced-motion:reduce){#toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav aria-label="Secciones">
+<h1>Catálogo CAD</h1><small>Impresión 3D · nombres y medidas</small>
+<button class="nv" data-v="cat" aria-current="true">Catálogo</button>
+<button class="nv" data-v="med">Medidas</button>
+<div class="tg" role="group" aria-label="Modo de color"><button id="ml" aria-label="Modo claro"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg></button><button id="md" aria-label="Modo oscuro"><svg viewBox="0 0 24 24"><path d="M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10Z"/></svg></button></div>
+</nav>
+<main>
+<section class="sec on" id="v-cat">
+<h2>Catálogo</h2>
+<p class="nt">Busca por el nombre que se te ocurra (“borde redondo”, “bisel”, “cortes”) y encuentra cómo se llama en CAD.</p>
+<div class="tb"><input type="search" id="q" placeholder="Buscar: redondeo, countersink, tuerca…" aria-label="Buscar"><span id="chs"></span></div>
+<div class="grid" id="grid"></div>
+<p id="empty" class="nt" hidden>Sin resultados. Prueba con otro nombre, o con el término en inglés.</p>
+</section>
+<section class="sec" id="v-med">
+<h2>Medidas</h2>
+<p class="nt">Puntos de partida para FDM; calibra con una pieza de prueba en tu impresora.</p>
+<h3>Tornillos métricos (mm)</h3><div style="overflow-x:auto"><table id="t1"></table></div>
+<h3>Holguras por lado (mm)</h3><table id="t2"></table>
+<h3>Paredes y capas (mm)</h3><table id="t3"></table>
+<h3>Agujeros según orientación de impresión</h3>
+<div style="overflow-x:auto"><table><thead><tr><th>Orientación</th><th>Variantes</th><th>Qué comparar</th></tr></thead><tbody><tr><td>Pared vertical (eje horizontal)</td><td>Circular, gota, hexagonal</td><td>Deformación superior, diámetro útil y retención</td></tr><tr><td>Superficie horizontal (eje vertical)</td><td>Circular con tolerancia, ranura elástica, doble pestaña</td><td>Fuerza de inserción, extracción y desgaste</td></tr><tr><td>Superficie suspendida sobre una cavidad</td><td>Membrana sacrificial, doble puente perpendicular</td><td>Calidad del puente, limpieza y precisión</td></tr></tbody></table></div>
+<h3>Protocolo de calibración de agujeros</h3>
+<ol><li>Mide el diámetro real de la varilla o tornillo con un calibre.</li><li>Define en SolidCraft el diámetro, la holgura diametral y la geometría; diferencia holgura diametral de holgura por lado (la primera es el doble de la segunda en un círculo).</li><li>Imprime las variantes en una misma placa, con el mismo material, orientación prevista y perfil de Bambu Studio.</li><li>Comprueba las medidas, inserción, extracción, retención y desgaste tras varios ciclos.</li><li>Registra la variante y tolerancia que mejor funcionen en tu Bambu Lab A1 Combo.</li></ol>
+<p class="nt">Las geometrías y tolerancias son orientativas: dependen de material, orientación, calibración, altura de capa y uso. Las ilustraciones son esquemáticas, no planos a escala.</p>
+</section>
+</main>
+</div>
+<div id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const CAT={b:"Bordes",a:"Agujeros",k:"Cortes y huecos",t:"Roscas y tornillos",u:"Uniones",h:"Bisagras",c:"Cierres",x:"Flexibles y mallas",m:"Mecanismos",o:"Operaciones",r:"Refuerzos"};
+const SV={
+fillet:'<path class="b" d="M10 42V10H46Q60 10 60 24V42Z"/><path class="h" d="M46 10Q60 10 60 24"/>',
+fullround:'<path class="b" d="M28 42V24A12 12 0 0 1 52 24V42Z"/><path class="h" d="M28 24A12 12 0 0 1 52 24"/>',
+chamfer:'<path class="b" d="M10 42V10H46L60 24V42Z"/><path class="h" d="M46 10L60 24"/>',
+chamfer2:'<path class="b" d="M10 42V10H44L60 30V42Z"/><path class="h" d="M44 10L60 30"/>',
+rabbet:'<path class="b" d="M10 42V10H30V20H64V42Z"/><path class="h" d="M30 10V20H64"/>',
+lip:'<path class="b" d="M8 42V28H18V16H62V28H72V42Z"/><path class="h" d="M18 28V16H62V28"/>',
+notch:'<path class="b" d="M10 42V10H30V22H42V10H70V42Z"/><path class="h" d="M30 10V22H42V10"/>',
+draft:'<path class="b" d="M10 42L18 10H62L70 42Z"/><path class="h" d="M10 42L18 10M70 42L62 10"/>',
+through:'<path class="b" d="M8 14H34V38H8ZM46 14H72V38H46Z"/><path class="h" d="M34 14V38M46 14V38"/>',
+blind:'<path class="b" d="M8 14H34V32H46V14H72V42H8Z"/><path class="h" d="M34 14V32H46V14"/>',
+cbore:'<path class="b" d="M8 14H28V24H34V38H8ZM72 14H52V24H46V38H72Z"/><path class="h" d="M28 14V24H34V38M52 14V24H46V38"/>',
+csink:'<path class="b" d="M8 14H27L34 26V38H8ZM72 14H53L46 26V38H72Z"/><path class="h" d="M27 14L34 26M53 14L46 26"/>',
+nut:'<circle class="b" cx="40" cy="27" r="6"/><path class="h" d="M40 8L58 18V36L40 46L22 36V18Z"/>',
+insert:'<circle class="b" cx="40" cy="27" r="19"/><circle class="h" cx="40" cy="27" r="11"/>',
+slot:'<rect class="h" x="12" y="19" width="56" height="16" rx="8"/><path class="b" d="M6 10H74V44H6Z"/>',
+tear:'<path class="h" d="M40 8L49.2 22.8A13 13 0 1 1 30.8 22.8Z"/><path class="b" d="M8 8H72V46H8Z"/>',
+magnet:'<circle class="h" cx="40" cy="26" r="15"/><path class="b" d="M33 26H47M40 19V33"/>',
+thread:'<path class="b" d="M8 12H32V38H8ZM72 12H48V38H72Z"/><path class="h" d="M32 14L36 18L32 22L36 26L32 30L36 34L32 38M48 14L44 18L48 22L44 26L48 30L44 34L48 38"/>',
+press:'<path class="b" d="M8 14H27V38H8ZM53 14H72V38H53ZM30 14H50V38H30Z"/><path class="h" d="M27 14V38M53 14V38"/>',
+tab:'<path class="b" d="M8 40V28H32V14H48V28H72V40Z"/><path class="h" d="M32 28V14H48V28"/>',
+dovetail:'<path class="b" d="M8 40V30H30L26 14H54L50 30H72V40Z"/><path class="h" d="M30 30L26 14H54L50 30"/>',
+snap:'<path class="b" d="M10 42V10H18V30H50V24H58V36H18V42Z"/><path class="h" d="M50 30V24H58V36"/>',
+livinghinge:'<path class="b" d="M6 14H34V24H46V14H74V38H46V28H34V38H6Z"/><path class="h" d="M34 24H46M34 28H46"/>',
+pinhinge:'<path class="b" d="M6 18H30V34H6ZM50 18H74V34H50Z"/><circle class="h" cx="40" cy="26" r="10"/><circle class="b" cx="40" cy="26" r="3"/>',
+dowel:'<path class="b" d="M6 10H74V24H6ZM6 28H74V42H6Z"/><path class="h" d="M34 16H46V34H34Z"/>',
+extrude:'<path class="b" d="M42 34L58 26V12L28 12M42 20L58 12M12 20L28 12"/><path class="h" d="M12 34H42V20H12Z"/>',
+revolve:'<path class="b" d="M40 6V46"/><ellipse class="b" cx="40" cy="12" rx="18" ry="4"/><path class="h" d="M40 12H58L52 40H40"/>',
+sweep:'<circle class="b" cx="12" cy="40" r="5"/><path class="h" d="M12 40Q12 16 40 16Q60 16 68 10"/>',
+loft:'<ellipse class="b" cx="40" cy="42" rx="18" ry="5"/><rect class="b" x="30" y="8" width="20" height="8"/><path class="h" d="M22 42L30 16M58 42L50 16"/>',
+shell:'<path class="b" d="M10 12H70V42H10Z"/><path class="h" d="M18 20H62V42H18Z"/>',
+pattern:'<path class="b" d="M6 14H76V38H6Z"/><g class="h"><circle cx="16" cy="26" r="5"/><circle cx="34" cy="26" r="5"/><circle cx="52" cy="26" r="5"/><circle cx="70" cy="26" r="5"/></g>',
+mirror:'<path class="b" d="M40 6V46"/><path class="h" d="M14 38L30 16V38ZM66 38L50 16V38Z"/>',
+rib:'<path class="b" d="M8 42V36H72V42Z"/><path class="h" d="M36 36V14H44V36"/>',
+gusset:'<path class="b" d="M8 42V36H72V42ZM30 36V10H36V36"/><path class="h" d="M36 36H56L36 16"/>',
+boss:'<path class="b" d="M8 42V36H72V42Z"/><ellipse class="b" cx="40" cy="18" rx="8" ry="3"/><path class="h" d="M32 36V18M48 36V18"/>',
+pocket:'<path class="b" d="M6 12H28V26H52V12H74V42H6Z"/><path class="h" d="M28 12V26H52V12"/>',
+groove:'<path class="b" d="M6 10H30V16H50V10H74V42H50V36H30V42H6Z"/><path class="h" d="M30 10V16H50V10M30 42V36H50V42"/>',
+tslot:'<path class="b" d="M6 8H74V44H6Z"/><path class="h" d="M30 8V20H18V30H62V20H50V8"/>',
+vgroove:'<path class="b" d="M6 12H34L40 22L46 12H74V42H6Z"/><path class="h" d="M34 12L40 22L46 12"/>',
+dogbone:'<path class="b" d="M16 14H64V40H16Z"/><g class="h"><circle cx="16" cy="14" r="3.5"/><circle cx="64" cy="14" r="3.5"/><circle cx="16" cy="40" r="3.5"/><circle cx="64" cy="40" r="3.5"/></g>',
+vent:'<path class="b" d="M8 8H72V44H8Z"/><path class="h" d="M20 16V36M32 16V36M44 16V36M56 16V36"/>',
+bearing:'<circle class="b" cx="40" cy="26" r="20"/><circle class="h" cx="40" cy="26" r="13"/><circle class="b" cx="40" cy="26" r="5"/>',
+dhole:'<path class="b" d="M8 6H72V46H8Z"/><path class="h" d="M48 13.3A15 15 0 1 0 48 38.7Z"/>',
+engrave:'<path class="b" d="M8 6H72V46H8Z"/><path class="h" d="M30 38L40 12L50 38M33 30H47"/>',
+finger:'<path class="b" d="M6 10H74V44H6Z"/><path class="h" d="M6 27H20V19H34V27H48V19H62V27H74"/>',
+tongue:'<path class="b" d="M6 12H34V21H44V31H34V40H6ZM74 12H40V21H46V31H40V40H74Z"/><path class="h" d="M34 21H44V31H34"/>',
+pthread:'<path class="b" d="M26 6V46M54 6V46"/><path class="h" d="M26 10L54 14M26 18L54 22M26 26L54 30M26 34L54 38"/>',
+rail:'<path class="b" d="M20 10H60V30H50V20H30V30H20Z"/><path class="h" d="M6 40H74M30 40V30M50 40V30"/>',
+boolean:'<circle class="b" cx="32" cy="26" r="16"/><circle class="b" cx="48" cy="26" r="16"/><path class="h" d="M40 12.1A16 16 0 0 1 40 39.9A16 16 0 0 1 40 12.1Z"/>',
+split:'<path class="b" d="M10 10H70V42H10Z"/><path class="h" d="M40 4V48"/>',
+offset:'<path class="b" d="M16 14H64V40H16Z"/><rect class="h" x="24" y="21" width="32" height="12" rx="3"/>',
+sketch:'<path class="b" d="M12 38H52V14H12Z"/><path class="h" d="M12 44H52M12 42V46M52 42V46"/>',
+wplane:'<path class="h" d="M12 38L30 18H68L50 38Z"/><path class="b" d="M44 28V6M44 6L41 12M44 6L47 12"/>',
+param:'<path class="b" d="M8 8H72V44H8Z"/><path class="h" d="M22 18L34 34M34 18L22 34M42 23H58M42 29H58"/>',
+mtab:'<path class="b" d="M24 8H56V34H74V44H6V34H24Z"/><g class="h"><circle cx="14" cy="39" r="2.5"/><circle cx="66" cy="39" r="2.5"/></g>',
+bolt:'<path class="b" d="M26 6H54V14H26ZM32 14V44H48V14"/><path class="h" d="M32 20L48 23M32 28L48 31M32 36L48 39"/>',
+lead:'<path class="b" d="M30 6V46M50 6V46"/><path class="h" d="M30 10L38 12H42L50 14M30 22L38 24H42L50 26M30 34L38 36H42L50 38"/>',
+bayonet:'<path class="b" d="M20 8H60V44H20Z"/><path class="h" d="M20 20H40V32"/>',
+pilot:'<path class="b" d="M10 10H70V44H10ZM40 3V30M37 30H43"/><path class="h" d="M36 10V36H44V10"/>',
+sidenut:'<path class="b" d="M10 8H70V44H10Z"/><path class="h" d="M10 20H26L32 26L26 32H10"/>',
+bridge:'<path class="b" d="M8 6H72V46H8Z"/><circle class="b" cx="40" cy="26" r="13"/><path class="h" d="M27 26H53"/>',
+pip:'<path class="b" d="M6 12H28V40H6ZM52 12H74V40H52Z"/><path class="h" d="M30 12H40V22H30ZM40 30H50V40H40Z"/>',
+pivot:'<circle class="b" cx="40" cy="26" r="12"/><circle class="b" cx="40" cy="26" r="3"/><path class="h" d="M40 8A18 18 0 0 1 58 26M58 26L54 22M58 26L62 22"/>',
+piano:'<path class="b" d="M6 20H74V32H6Z"/><path class="h" d="M18 20V32M30 20V32M42 20V32M54 20V32M66 20V32"/>',
+maglatch:'<path class="b" d="M8 6H72V12H8ZM8 40H72V46H8Z"/><path class="h" d="M32 12V20M48 12V20M32 40V32M48 40V32"/>',
+bolt2:'<path class="b" d="M6 18H74V34H6Z"/><path class="h" d="M24 22H56V30H24ZM40 22V12"/>',
+hook:'<path class="b" d="M8 42H72V46H8Z"/><path class="h" d="M30 42V16Q30 8 38 8H56V16H40V42"/>',
+quarter:'<circle class="b" cx="40" cy="26" r="16"/><path class="h" d="M26 26H54M40 6A20 20 0 0 1 60 26"/>',
+chain:'<g class="h"><circle cx="26" cy="26" r="10"/><circle cx="40" cy="26" r="10"/><circle cx="54" cy="26" r="10"/></g>',
+honey:'<path class="h" d="M20 14L26 10L32 14V22L26 26L20 22ZM32 14L38 10L44 14V22L38 26L32 22ZM26 26L32 22L38 26V34L32 38L26 34ZM38 26L44 22L50 26V34L44 38L38 34Z"/>',
+lattice:'<path class="b" d="M10 8H70V44H10Z"/><path class="h" d="M10 8L70 44M70 8L10 44M40 8V44M10 26H70"/>',
+flexcut:'<path class="b" d="M8 8H72V44H8Z"/><path class="h" d="M16 14H48M32 22H64M16 30H48M32 38H64"/>',
+leaf:'<path class="b" d="M6 38H14M66 38H74"/><path class="h" d="M10 34Q40 6 70 34"/>',
+gear:'<circle class="b" cx="40" cy="26" r="13"/><circle class="b" cx="40" cy="26" r="4"/><path class="h" d="M40 9V13M40 39V43M23 26H27M53 26H57M28 14L31 17M52 14L49 17M28 38L31 35M52 38L49 35"/>',
+rack:'<path class="b" d="M6 30H74V40H6Z"/><path class="h" d="M10 30V24H16V30M22 30V24H28V30M34 30V24H40V30M46 30V24H52V30M58 30V24H64V30"/>',
+cam:'<circle class="b" cx="38" cy="28" r="3"/><path class="h" d="M30 40Q14 26 28 12Q44 4 58 20Q62 36 44 42Z"/>',
+ratchet:'<path class="b" d="M30 8L36 22H24Z"/><path class="h" d="M10 38L22 26V38L34 26V38L46 26V38L58 26V38L70 26V38"/>',
+ball:'<circle class="b" cx="40" cy="22" r="10"/><path class="b" d="M40 8V12"/><path class="h" d="M26 20Q40 44 54 20"/>',
+bushing:'<path class="b" d="M10 22H70V30H10Z"/><path class="h" d="M26 16H54V36H26Z"/>',
+hexrod:"<rect class=\"b\" x=\"8\" y=\"4\" width=\"64\" height=\"44\"/><path class=\"h\" d=\"M40 7L56.5 16.5V35.5L40 45L23.5 35.5V16.5Z\"/><circle class=\"b\" cx=\"40\" cy=\"26\" r=\"16\" stroke-dasharray=\"2 2\"/>",
+clearrod:"<rect class=\"b\" x=\"8\" y=\"4\" width=\"64\" height=\"44\"/><circle class=\"h\" cx=\"40\" cy=\"26\" r=\"16\"/><circle class=\"b\" cx=\"40\" cy=\"26\" r=\"12\" stroke-dasharray=\"2 2\"/>",
+flexrod:"<path class=\"b\" d=\"M37 4H8V48H72V4H43\"/><path class=\"h\" d=\"M37 4V10.3A16 16 0 1 0 43 10.3V4\"/><circle class=\"b\" cx=\"40\" cy=\"26\" r=\"13\" stroke-dasharray=\"2 2\"/>",
+dualtab:"<rect class=\"b\" x=\"8\" y=\"4\" width=\"64\" height=\"44\"/><path class=\"h\" d=\"M27 8V18Q32 26 27 34V44M53 8V18Q48 26 53 34V44M20 8V44M60 8V44\"/><circle class=\"b\" cx=\"40\" cy=\"26\" r=\"11\" stroke-dasharray=\"2 2\"/>",
+crossbridge:"<rect class=\"b\" x=\"8\" y=\"4\" width=\"64\" height=\"44\"/><circle class=\"b\" cx=\"40\" cy=\"26\" r=\"19\" stroke-dasharray=\"2 2\"/><path class=\"h\" d=\"M23 17H57M23 35H57\"/><path class=\"h\" d=\"M31 17V35M49 17V35\"/><circle class=\"b\" cx=\"40\" cy=\"26\" r=\"8\"/>"};
+const D=[
+["fillet","b","redondeo","fillet","borde redondo esquina suave arista redondeada","Suaviza una arista con un arco.","Radio 1–3 mm en piezas pequeñas; menos de 0,4 mm no se nota con boquilla de 0,4."],
+["fullround","b","redondeo completo","full round","borde totalmente redondo semicircular media caña","Redondea un borde entero hasta formar un semicírculo.","Radio igual a la mitad del grosor de la pared."],
+["chamfer","b","chaflán","chamfer","bisel diagonal borde diagonal esquina cortada 45","Corta una arista en diagonal.","0,8–2 mm a 45°. En la base evita el pie de elefante."],
+["chamfer2","b","chaflán asimétrico","two-distance chamfer","bisel desigual diagonal dos distancias","Chaflán con dos medidas distintas en cada cara.","Por ejemplo 2 × 1 mm, útil para guiar una entrada."],
+["rabbet","b","rebaje","rabbet","borde en cortes escalonado escalon paso tapa en L","Escalón recortado en el borde, ideal para tapas.","Ancho y profundidad iguales a la mitad del grosor; holgura de 0,2 mm en tapas."],
+["lip","b","labio","lip","reborde pestaña borde elevado tapa","Reborde que sobresale y encaja en la otra pieza.","Alto 1,5–3 mm y grosor de al menos 1,2 mm; holgura de 0,2 mm."],
+["notch","b","muesca","notch","corte borde en cortes hendidura entalla almenado","Corte pequeño en el borde de una pieza.","Ancho de 1 mm o más; redondea las esquinas interiores."],
+["draft","b","ángulo de desmoldeo","draft","pared inclinada inclinación talud conicidad","Inclina una cara respecto a la vertical.","Hasta unos 45° respecto a la vertical se imprime sin soportes."],
+["through", "a", "agujero pasante", "through hole", "taladro agujero circular pared vertical eje horizontal voladizo", "Agujero que atraviesa la pieza. Si su eje es horizontal, la parte superior puede deformarse por el voladizo interno.", "Como punto de partida para paso libre, prueba diámetro nominal + 0,2–0,4 mm. En pared vertical compara con un perfil de gota."],
+["blind","a","agujero ciego","blind hole","agujero no pasante hueco fondo","Agujero que no llega al otro lado.","Deja al menos 3 capas de suelo bajo el fondo."],
+["cbore","a","refrentado","counterbore","cajera rebaje cabeza cilindrica allen agujero con refrentado","Agujero con escalón para alojar la cabeza del tornillo.","M3: paso 3,4 mm, Ø 6,0 mm, profundidad 3,2 mm."],
+["csink","a","avellanado","countersink","cabeza conica avellanar cono","Entrada cónica para tornillo de cabeza plana.","M3: paso 3,4 mm, Ø de boca 6,5 mm, 90°."],
+["nut","t","alojamiento de tuerca","captive nut pocket","tuerca hexagonal bolsillo hexagono","Hueco hexagonal que sujeta la tuerca.","M3: 5,7 mm entre caras planas y 2,6 mm de profundidad."],
+["insert","t","inserto térmico","heat-set insert","inserto roscado latón rosca metalica","Alojamiento para un inserto roscado que se funde en el plástico.","M3: Ø 4,0–4,6 mm según el inserto; profundidad = largo + 1 mm."],
+["slot","a","ranura alargada","slot","agujero alargado oblongo ajuste posicion","Agujero alargado que permite ajustar la posición.","Ancho = Ø del tornillo + 0,4 mm; longitud = recorrido + ancho."],
+["tear", "a", "agujero en forma de gota", "teardrop hole", "agujero horizontal pared vertical sin soportes lagrima precision", "Agujero de eje horizontal con punta superior que sustituye el arco sin apoyo por caras inclinadas.", "Orienta la punta hacia arriba, con caras cercanas a 45° respecto de la vertical; conserva el diámetro circular útil y verifica la precisión."],
+["magnet","a","alojamiento de imán","magnet pocket","iman cajera bolsillo","Hueco cilíndrico donde se pega un imán.","Ø del imán + 0,2 mm; profundidad = grosor + 0,2 mm; pared de 0,4–0,6 mm."],
+["thread","t","agujero roscado","threaded hole","rosca macho tap tornillo","Agujero preparado para recibir una rosca.","M3: 2,5 mm para roscar con macho; la rosca moldeada solo funciona de M6 en adelante."],
+["press","u","ajuste a presión","press fit","encaje apretado interferencia","Dos piezas que encajan casi sin holgura.","0,10 mm por lado con boquilla de 0,4; 0,05 mm con 0,2."],
+["tab","u","lengüeta y ranura","tab and slot","encaje union pestaña espiga","Una pieza entra en el hueco de la otra y las alinea.","Holgura de 0,2 mm; redondea la base de la lengüeta."],
+["dovetail","u","cola de milano","dovetail","union deslizante guia trapezoidal","Unión trapezoidal que desliza pero no se separa.","Ángulo 60–75°; holgura 0,2–0,3 mm."],
+["snap","u","broche elástico","snap fit","clip gancho presion cantilever","Gancho flexible que encaja a presión.","Brazo de al menos 10 veces su grosor; el gancho entra 0,6–1 mm."],
+["livinghinge","h","bisagra integrada","living hinge","bisagra flexible lamina fina","Bisagra hecha con una lámina fina y flexible.","Lámina de 0,4–0,6 mm; mejor en PETG o TPU, el PLA se fatiga."],
+["pinhinge","h","bisagra con pasador","pin hinge","charnela eje articulacion","Dos piezas que giran alrededor de un pasador.","Holgura de 0,3 mm entre pasador y agujero."],
+["dowel","u","pasador de alineación","alignment pin","espiga clavija guia dowel","Pasador que alinea dos piezas al unirlas.","Pasador de Ø 3 mm en agujeros de 3,1–3,2 mm."],
+["extrude","o","extrusión","extrude","empujar sacar perfil cortar cut join","Convierte un perfil plano en un sólido.","Perfil cerrado más distancia; también corta (cut) o une (join)."],
+["revolve","o","revolución","revolve","girar torno eje redondo","Gira un perfil alrededor de un eje.","Sirve para ejes, copas y piezas redondas."],
+["sweep","o","barrido","sweep","trayectoria tubo cable asa camino","Desplaza un perfil a lo largo de una trayectoria.","Útil para tubos, cables y asas."],
+["loft","o","solevación","loft","transicion embudo conducto entre perfiles","Une dos perfiles distintos con una transición suave.","Útil para embudos y conductos."],
+["shell","o","vaciado","shell","hueco paredes finas carcasa","Vacía un sólido y deja paredes.","Pared de 1,2 mm: dos líneas con boquilla de 0,4."],
+["pattern","o","patrón","pattern","repetir matriz lineal circular array","Repite un elemento en línea o en círculo.","Agujeros, nervios o ventilación con un solo paso."],
+["mirror","o","simetría","mirror","espejo reflejar mitad","Refleja una pieza sobre un plano.","Modela la mitad de una pieza simétrica."],
+["rib","r","nervio","rib","refuerzo costilla aleta","Pared fina que rigidiza una pieza.","Grosor cerca del 60 % de la pared; altura hasta 3 veces la pared."],
+["gusset","r","escuadra de refuerzo","gusset","cartela triangulo esquina refuerzo","Triángulo que refuerza una esquina.","Con 45° se imprime sin soportes."],
+["boss","r","torreta","boss","standoff poste columna tornillo","Cilindro que sostiene un tornillo o inserto.","Ø exterior de unas 2 veces el del agujero; únelo con nervios."],
+["pocket","k","cajera","pocket","hueco rebaje vaciado cavidad bolsillo","Hueco con fondo que se recorta en una cara.","Deja al menos 3 capas de suelo (0,6 mm) y paredes de 1,2 mm."],
+["groove","k","canal","groove","ranura circular junta o-ring anillo seeger","Canal en un cilindro o en una cara, por ejemplo para una junta o un anillo.","Junta tórica: profundidad cercana al 75 % de su grosor."],
+["tslot","k","ranura en T","T-slot","perfil aluminio tuerca martillo carril","Ranura con forma de T para tuercas o cabezas de tornillo.","Perfil 2020: boca de unos 6 mm."],
+["vgroove","k","ranura en V","V-groove","hendidura marca plegado linea de rotura","Ranura triangular para guiar un doblez o una rotura.","Ángulo de 60–90°; que la punta no quede más fina que 0,4 mm."],
+["dogbone","k","alivio de esquina","dog-bone relief","esquina interior hueso de perro hueco rectangular encaje","Círculo en las esquinas de un hueco para que encaje una pieza de esquinas vivas.","Radio de 0,5–1 mm en cada esquina interior."],
+["vent","k","rejilla de ventilación","vent grille","ventilacion rendijas aireacion","Serie de ranuras para que circule el aire.","Ranuras de 1,5–2 mm con puentes de 1,2 mm; mejor en vertical."],
+["bearing","k","alojamiento de rodamiento","bearing seat","cojinete 608 asiento","Hueco cilíndrico donde se presiona un rodamiento.","608 (8 × 22 × 7 mm): agujero de 22,1–22,2 mm."],
+["dhole","k","agujero en D","D-shaft hole","eje motor plano nema","Agujero con un lado plano para ejes con plano.","Ø del eje + 0,2 mm y plano de la misma longitud."],
+["engrave","k","texto grabado","engraved text","relieve texto emboss letras grabado","Letras hundidas o en relieve en una cara.","Trazo de 0,8 mm o más; profundidad o relieve de 0,4–0,6 mm."],
+["finger","u","unión de dedos","finger joint","dientes caja cajon box joint","Dientes entrelazados que unen dos paredes.","Dientes de 6–10 mm con holgura de 0,2 mm."],
+["tongue","u","machihembrado","tongue and groove","union tablero lengüeta ranura","Un borde con saliente y otro con ranura que unen en plano.","Lengüeta de la mitad del grosor; holgura de 0,2 mm."],
+["pthread","t","rosca impresa","printed thread","tapa roscada bote tornillo moldeado","Rosca modelada para tapas o botes.","Paso de 2–4 mm, flancos a 45° o más y holgura de 0,3 mm."],
+["rail","u","guía deslizante","sliding rail","riel carro corredera","Riel y carro que se deslizan uno sobre otro.","Holgura de 0,25 mm por lado; imprime la guía en horizontal."],
+["boolean","o","operaciones booleanas","boolean","unir restar intersectar combinar join cut intersect","Unen (join), restan (cut) o intersectan dos sólidos.","Restar crea huecos; unir fusiona; intersectar deja solo lo común."],
+["split","o","división","split body","partir cortar pieza dividir imprimible","Parte un sólido en dos con un plano.","Úsala para piezas mayores que la cama (256 mm) o para imprimir en plano."],
+["offset","o","desfase","offset","engrosar distancia paralela contorno","Crea un contorno o una cara a una distancia fija.","Útil para holguras: desfasa 0,2 mm el hueco."],
+["sketch","o","croquis","sketch","boceto perfil dimensiones restricciones constraints","Dibujo 2D con cotas y restricciones; es la base de casi toda pieza.","Restríngelo del todo: así no se deforma al cambiar medidas."],
+["wplane","o","plano de referencia","work plane","construction plane plano de trabajo","Plano donde se dibuja un croquis; puede ser una cara o uno propio.","Créalo a una distancia o a un ángulo de otro plano."],
+["param","o","parámetro","parameter","variable nombre medida ancho cota","Medida con nombre que controla varias partes del diseño.","Nombra ancho, pared y holgura; al cambiar uno se recalcula todo."],
+["mtab","r","oreja de montaje","mounting tab","patilla brida fijacion pestaña con agujero","Pestaña con agujero para atornillar la pieza a otra superficie.","Grosor de 3–4 mm, agujero de paso y redondeo en la unión."],
+["bolt","t","tornillo impreso","printed bolt","perno rosca exterior tuerca impresa","Tornillo modelado y impreso, con su tuerca.","Holgura de 0,3 mm entre rosca y tuerca; imprímelo de pie."],
+["lead","t","husillo trapezoidal","lead screw","tornillo de avance acme trapecial rosca de movimiento","Rosca de perfil trapezoidal que convierte giro en avance.","Paso de 4–8 mm, 30° entre flancos y holgura de 0,3 mm."],
+["bayonet","t","cierre de bayoneta","bayonet mount","bayoneta cuarto de vuelta ranura en L tapa","Ranura en L por la que entra un saliente y gira para bloquear.","Ancho de ranura = saliente + 0,4 mm; añade un pequeño tope al final."],
+["pilot","t","agujero piloto","pilot hole","tornillo autorroscante rosca chapa plastico madera","Agujero algo menor que el tornillo, que este rosca en el plástico.","Para tornillo de 3 mm: Ø 2,5–2,6 mm; profundidad = largo + 1 mm."],
+["sidenut","t","tuerca lateral","side-entry nut slot","tuerca cautiva ranura deslizar sin soportes","Ranura abierta por un lado para meter la tuerca tras imprimir.","M3: ranura de 5,7 × 2,6 mm, alineada con el agujero del tornillo."],
+["bridge", "a", "membrana sacrificial", "sacrificial layer / bridge", "capa de sacrificio agujero flotante superficie suspendida sin soportes tornillo bajo cabeza", "Una membrana temporal cierra el agujero sobre una cavidad para crear un puente; se retira después de imprimir.", "Usa una altura de capa (0,2 mm si laminas a 0,2 mm). Retírala con una herramienta de desbarbado; comprueba el puente y el acceso antes de imprimir."],
+["pip","h","bisagra imprimible en una pieza","print-in-place hinge","bisagra montada sin ensamblar articulacion","Bisagra que sale ya montada de la impresora.","Holgura de 0,4–0,5 mm entre partes móviles; 0,3 mm con boquilla de 0,2."],
+["pivot","h","pivote","pivot","eje giro pasador articulacion","Punto fijo sobre el que gira una pieza.","Agujero 0,3 mm mayor que el eje."],
+["piano","h","bisagra continua","piano hinge","bisagra de piano larga pasador varilla","Bisagra con nudillos a lo largo de todo el borde y una varilla.","Nudillos de 6–8 mm de Ø y varilla de 1,75 mm (filamento)."],
+["maglatch","c","cierre magnético","magnet latch","iman tapa cierre cajas","Dos imanes enfrentados que mantienen una tapa cerrada.","Imán a ras de la cara con 0,4 mm de pared; vigila la polaridad."],
+["bolt2","c","pestillo deslizante","sliding bolt","cerrojo pasador barra corredera","Barra que se desliza para bloquear o liberar una tapa.","Holgura de 0,25 mm; añade un tope para que no se salga."],
+["hook","c","cierre de gancho","hook latch","gancho broche pestillo enganche","Gancho que se engancha en un saliente.","Saliente de 1–1,5 mm; brazo flexible en la dirección más fina."],
+["quarter","c","cierre de cuarto de vuelta","quarter-turn latch","giro 90 cerradura leva cam lock","Se bloquea al girar una leva o pestaña 90°.","Tope a 90° y holgura de 0,3 mm en el giro."],
+["chain","x","malla articulada","chainmail","cota de malla anillos tela flexible eslabones imprimible","Eslabones que forman una tela flexible impresa en una sola pieza.","Holgura de 0,4 mm entre eslabones; imprime en plano y sin soportes."],
+["honey","x","panal","honeycomb","nido de abeja hexagonal relleno ligero","Celdas hexagonales ligeras y rígidas.","Paredes de 0,8–1,2 mm y celdas de 6–10 mm."],
+["lattice","x","retícula","lattice","reticulado malla estructura rejilla","Barras cruzadas que forman una estructura ligera.","Barras de 1,2 mm o más y cruces a 45° para no usar soportes."],
+["flexcut","x","cortes de flexión","flex cuts","kerf doblar flexible lamina ranuras alternas","Ranuras alternas que hacen flexible una placa rígida.","Ranuras de 1 mm con 2 mm entre ellas; mejor en PETG o TPU."],
+["leaf","x","resorte de lámina","leaf spring","muelle plano flexion lengüeta flexible","Lámina curva que se flexiona y devuelve la fuerza.","Grosor de 0,8–1,2 mm; imprímela tumbada para que las capas vayan a lo largo."],
+["gear","m","engranaje recto","spur gear","piñon dientes rueda dentada modulo","Rueda con dientes rectos que transmite giro.","Módulo 1–2 y holgura entre dientes de 0,15–0,2 mm."],
+["rack","m","cremallera","rack","dientes lineal piñon cremallera","Barra dentada que convierte giro en movimiento recto.","Usa el mismo módulo que el engranaje que la mueve."],
+["cam","m","leva","cam","excentrica seguidor movimiento","Pieza de contorno irregular que empuja a un seguidor.","Contorno suave sin esquinas; agujero del eje con holgura de 0,2 mm."],
+["ratchet","m","trinquete","ratchet","carraca uña dientes de sierra un sentido","Dientes en rampa que solo dejan girar en un sentido.","Dientes de 2–3 mm; uña flexible de unos 1,2 mm de grosor."],
+["ball","m","rótula","ball joint","junta esfera articulacion bola","Bola alojada en una copa que gira en todas direcciones.","Holgura de 0,3 mm entre bola y copa; ranuras en la copa para encajar."],
+["bushing","m","casquillo","bushing","cojinete liso buje manguito eje","Manguito donde gira un eje con poco roce.","Agujero 0,2–0,3 mm mayor que el eje; largo de 1 a 1,5 veces el Ø."]
+,
+["hexrod", "a", "agujero hexagonal para eje", "hexagonal rod hole", "pared vertical horizontal hexagono varilla friccion seis contactos", "Perfil hexagonal orientado con vértice arriba para reducir el voladizo y obtener contacto localizado con un eje circular.", "Acota entre caras planas; ensaya varias holguras. El contacto puede mejorar la retención, pero depende de la geometría y del material."],
+["clearrod", "a", "agujero circular con tolerancia", "circular clearance hole", "superficie horizontal eje vertical varilla insercion desde arriba friccion", "El eje entra perpendicularmente a la superficie. El diámetro determina la holgura o interferencia.", "Mide el eje y compara varias holguras diametrales; el desgaste y la fluencia pueden reducir la retención."],
+["flexrod", "a", "agujero circular con ranura elástica", "slotted flexure hole", "superficie horizontal eje vertical varilla ranura radial abierta ajuste desmontable", "Una ranura radial permite que la pared se abra ligeramente durante la inserción.", "Redondea la raíz de la ranura y prueba la flexión; PETG suele tolerar mejor ciclos repetidos que PLA."],
+["dualtab", "a", "agujero con doble pestaña elástica", "dual-tab elastic hole", "superficie horizontal eje vertical varilla dos brazos flexibles clip friccion", "Dos lengüetas opuestas se flexionan y sujetan la varilla de manera simétrica.", "Parametriza longitud, espesor, radio de raíz y separación de las lengüetas; verifica retención y fatiga con ciclos reales."],
+["crossbridge", "a", "doble puente perpendicular", "dual perpendicular bridges", "superficie suspendida agujero flotante sin soportes cabeza tornillo puente cruzado", "Dos transiciones escalonadas con puentes ortogonales permiten reducir el hueco grande hasta el agujero pequeño sin soportes internos.", "Cada escalón puede tener una altura de capa; orienta los puentes a 90° entre sí y comprueba sus trayectorias en la vista previa del laminador."]
+].map(a=>({id:a[0],c:a[1],es:a[2],en:a[3],sy:a[4],ds:a[5],tp:a[6]}));
+const T1=[["Tornillo","Paso FDM","Rosca (macho)","Cabeza cil. Ø × alto","Tuerca llave × grosor"],["M2","2,4","1,6","3,8 × 2,0","4,0 × 1,6"],["M2,5","2,9","2,05","4,5 × 2,5","5,0 × 2,0"],["M3","3,4","2,5","5,5 × 3,0","5,5 × 2,4"],["M4","4,5","3,3","7,0 × 4,0","7,0 × 3,2"],["M5","5,5","4,2","8,5 × 5,0","8,0 × 4,0"],["M6","6,6","5,0","10,0 × 6,0","10,0 × 5,0"],["M8","8,6","6,8","13,0 × 8,0","13,0 × 6,5"]];
+const T2=[["Ajuste","Boquilla 0,4","Boquilla 0,2"],["A presión","0,10","0,05"],["Ajustado","0,15","0,10"],["Deslizante","0,20","0,15"],["Holgado","0,30","0,20"]];
+const T3=[["Dato","Boquilla 0,4","Boquilla 0,2"],["Pared mínima","0,8","0,4"],["Pared recomendada","1,2","0,8"],["Ancho de línea típico","0,42","0,22"],["Altura de capa habitual","0,12–0,28","0,05–0,12"],["Voladizo sin soporte","45°","45°"]];
+const S={c:"all",q:""};
+const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.i);toast.i=setTimeout(()=>t.classList.remove("on"),1400)};
+const copy=async s=>{try{await navigator.clipboard.writeText(s)}catch(e){const a=document.createElement("textarea");a.value=s;document.body.append(a);a.select();document.execCommand("copy");a.remove()}toast("Copiado")};
+const card=d=>`<article class="card" data-id="${d.id}"><div class="fig"><svg viewBox="0 0 80 52" role="img" aria-label="Dibujo de ${d.es}">${SV[d.id]}</svg></div><div class="in"><h3>${cap(d.es)} <span>${cap(d.en)}</span></h3><p>${d.ds}</p><div class="tp">${d.tp}</div><div class="ac"><button class="bt" data-a="cp">Copiar nombre</button></div></div></article>`;
+function renderCat(){const q=norm(S.q);const L=D.filter(d=>(S.c=="all"||d.c==S.c)&&(!q||norm([d.es,d.en,d.sy,d.ds].join(" ")).includes(q)));
+$("#grid").innerHTML=L.map(card).join("");$("#empty").hidden=L.length>0}
+$("#chs").innerHTML=[["all","Todo"],...Object.entries(CAT)].map(([k,v])=>`<button class="ch" data-c="${k}" aria-pressed="${k=="all"}">${v}</button>`).join(" ");
+$$("[data-c]").forEach(b=>b.onclick=()=>{S.c=b.dataset.c;$$("[data-c]").forEach(x=>x.setAttribute("aria-pressed",x==b));renderCat()});
+$("#q").oninput=e=>{S.q=e.target.value;renderCat()};
+$("#grid").addEventListener("click",e=>{const a=e.target.closest("[data-a]");if(!a)return;const d=D.find(x=>x.id==a.closest(".card").dataset.id);copy(cap(d.es)+" ("+d.en+")")});
+$$(".nv").forEach(b=>b.onclick=()=>{$$(".sec").forEach(s=>s.classList.toggle("on",s.id=="v-"+b.dataset.v));$$(".nv").forEach(x=>x.setAttribute("aria-current",x==b))});
+const tbl=(el,a)=>$(el).innerHTML="<tr>"+a[0].map(h=>`<th>${h}</th>`).join("")+"</tr>"+a.slice(1).map(r=>"<tr>"+r.map(c=>`<td>${c}</td>`).join("")+"</tr>").join("");
+const setM=m=>{document.documentElement.style.colorScheme=m;$("#ml").setAttribute("aria-pressed",m=="light");$("#md").setAttribute("aria-pressed",m=="dark")};
+$("#ml").onclick=()=>setM("light");$("#md").onclick=()=>setM("dark");setM(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+tbl("#t1",T1);tbl("#t2",T2);tbl("#t3",T3);renderCat();
+</script>
+</body>
+</html>
