@@ -3,25 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Catálogo CAD para impresión 3D</title>
+<title>Catálogo CAD para impresión 3D · bytehive lab</title>
+<meta name="theme-color" content="#060A23">
 <style>
-:root{color-scheme:light dark;--bg:light-dark(#eef1f4,#12181e);--pn:light-dark(#fff,#1a222a);--ink:light-dark(#1b2733,#e6edf3);--mu:light-dark(#586877,#93a4b3);--ln:light-dark(#cdd7e0,#2c3944);--ac:light-dark(#0b6e7f,#4cc3d6);--hl:light-dark(#d9480f,#ff8a5c);--gr:light-dark(#dfe6ec,#26323c)}
+:root{
+  color-scheme:light dark;
+  --brand-navy:#060A23;--brand-yellow:#F9B80E;--brand-cyan:#0CC0DF;
+  --bg:light-dark(#F4F6FA,#060A23);--pn:light-dark(#FFFFFF,#11172F);
+  --ink:light-dark(#060A23,#F4F6FA);--mu:light-dark(#4B586D,#A8B5C9);
+  --ln:light-dark(#CCD4E0,#34405D);--gr:light-dark(#E4EAF1,#222D48);
+  --ac:light-dark(#006779,var(--brand-cyan));--hl:var(--ac);
+  --focus:light-dark(#936600,var(--brand-yellow));
+  --selected:var(--brand-cyan);--on-selected:var(--brand-navy);
+  --action:var(--brand-yellow);--on-action:var(--brand-navy);
+  --font:Inter,system-ui,"Segoe UI",sans-serif;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,"Segoe UI",sans-serif}
-.app{display:grid;grid-template-columns:210px 1fr;min-height:100vh}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--font)}
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
 nav{position:sticky;top:0;height:100vh;padding:20px 14px;border-right:1px solid var(--ln);display:flex;flex-direction:column;gap:6px}
-h1{font:600 21px/1.2 Georgia,"Palatino Linotype",serif;margin:0}
+h1{font:650 21px/1.2 var(--font);margin:0}
 nav small{color:var(--mu);margin-bottom:14px}
 button,input{font:inherit;color:inherit}button{cursor:pointer}
 .nv{background:none;border:0;text-align:left;padding:8px 10px;border-radius:6px}
-.nv:hover{background:var(--gr)}.nv[aria-current=true]{background:var(--ac);color:#fff}
-:focus-visible{outline:2px solid var(--hl);outline-offset:2px}
+.nv:hover{background:var(--gr)}.nv[aria-current=true]{background:var(--selected);color:var(--on-selected)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 main{padding:22px 28px 60px;max-width:1300px}
-h2{font:600 24px Georgia,serif;margin:0 0 4px}
+h2{font:650 26px/1.3 var(--font);margin:0 0 4px}
 .tb{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px;align-items:center}
 .tb input{flex:1;min-width:220px;padding:8px 12px;border:1px solid var(--ln);border-radius:6px;background:var(--pn)}
 .ch{border:1px solid var(--ln);background:var(--pn);border-radius:99px;padding:5px 12px}
-.ch[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ch[aria-pressed=true]{background:var(--selected);color:var(--on-selected);border-color:var(--selected)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
 .card{background:var(--pn);border:1px solid var(--ln);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
 .fig{height:116px;background-image:linear-gradient(var(--gr) 1px,transparent 1px),linear-gradient(90deg,var(--gr) 1px,transparent 1px);background-size:12px 12px;border-bottom:1px solid var(--ln);display:grid;place-items:center}
@@ -29,15 +41,15 @@ h2{font:600 24px Georgia,serif;margin:0 0 4px}
 .b{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
 .h{fill:none;stroke:var(--hl);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
 .in{padding:12px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
-.card h3{margin:0;font:600 18px Georgia,serif}
-.card h3 span{color:var(--mu);font:400 14px system-ui}
+.card h3{margin:0;font:650 17px/1.35 var(--font)}
+.card h3 span{color:var(--mu);font:400 14px/1.45 var(--font)}
 .card p{margin:0;color:var(--mu);font-size:14px}
 .tp{font-size:13.5px;border-left:3px solid var(--hl);padding:2px 0 2px 9px}
 .ac{display:flex;gap:6px;margin-top:auto;padding-top:4px}
 .bt{border:1px solid var(--ac);background:none;color:var(--ac);border-radius:6px;padding:5px 11px;font-size:14px}
 .tg{margin-top:auto;display:flex;border:1px solid var(--ln);border-radius:99px;padding:3px;width:max-content;background:var(--pn)}
 .tg button{border:0;background:none;border-radius:99px;width:34px;height:30px;display:grid;place-items:center;color:var(--mu)}
-.tg button[aria-pressed=true]{background:var(--ac);color:var(--bg)}
+.tg button[aria-pressed=true]{background:var(--action);color:var(--on-action)}
 .tg svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .nt{font-size:13.5px;color:var(--mu)}
 table{border-collapse:collapse;width:100%;background:var(--pn);margin:8px 0 26px;font-size:14px}
@@ -48,12 +60,31 @@ th,td{border:1px solid var(--ln);padding:6px 10px;text-align:left}th{background:
 @media(max-width:760px){.app{grid-template-columns:1fr}nav{position:static;height:auto;flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--ln)}nav small{display:none}main{padding:16px}}
 @media(prefers-reduced-motion:reduce){#toast{transition:none}}
 .site-footer{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 12px;border-top:1px solid var(--ln);margin-top:32px;padding:18px 0 0;color:var(--mu);font-size:12px;text-align:center}.site-footer a{color:inherit;text-decoration:none}.site-footer a:hover,.site-footer a:focus-visible{color:var(--ac);text-decoration:underline;text-underline-offset:3px}.site-footer .sep{opacity:.55}
+/* bytehive lab · Engineering: presentation only. */
+nav{background:var(--pn);padding:20px 16px}
+.brand{display:block;background:var(--brand-navy);border-radius:8px;padding:8px;margin-bottom:12px;max-width:208px}
+.brand img{display:block;width:100%;height:auto}
+.line-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ac)}
+.nv{font-weight:600;min-height:44px}
+.tb input{min-width:0;width:100%;min-height:44px;flex:1 1 270px}
+#chs{display:flex;flex-wrap:wrap;gap:6px;max-width:100%}
+.ch{min-height:36px;font-weight:500}
+.ch:hover:not([aria-pressed=true]){border-color:var(--ac)}
+.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr))}
+.card{border-radius:12px}
+.fig{background-color:var(--bg)}
+.bt{min-height:40px;font-weight:600;border-color:var(--action);background:var(--action);color:var(--on-action)}
+.bt:hover{border-color:var(--focus)}
+.tg button{width:40px;height:38px}
+main{min-width:0}
+.site-footer a{font-weight:600}
+@media(max-width:760px){nav{align-items:center;padding:12px 16px;gap:8px}.brand{width:168px;margin:0}.nav-title{flex:1;min-width:130px}.nav-title h1{font-size:18px}.line-label{font-size:10px}.tg{margin-top:0;margin-left:auto}.nv{flex:1 1 100px;text-align:center}.tb{gap:10px}main{padding:16px;max-width:100%}}
 </style>
 </head>
 <body>
 <div class="app">
 <nav aria-label="Secciones">
-<h1>Catálogo CAD</h1><small>Impresión 3D · nombres y medidas</small>
+<a class="brand" href="https://bytehive.pro" target="_blank" rel="noopener noreferrer" aria-label="bytehive lab"><img src="assets/bytehive-lab-dark.svg" alt="bytehive lab" width="345" height="123"></a><div class="nav-title"><span class="line-label">Engineering</span><h1>Catálogo CAD</h1><small>Impresión 3D · nombres y medidas</small></div>
 <button class="nv" data-v="cat" aria-current="true">Catálogo</button>
 <button class="nv" data-v="med">Medidas</button>
 <div class="tg" role="group" aria-label="Modo de color"><button id="ml" aria-label="Modo claro"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg></button><button id="md" aria-label="Modo oscuro"><svg viewBox="0 0 24 24"><path d="M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10Z"/></svg></button></div>
@@ -78,7 +109,7 @@ th,td{border:1px solid var(--ln);padding:6px 10px;text-align:left}th{background:
 <ol><li>Mide el diámetro real de la varilla o tornillo con un calibre.</li><li>Define en SolidCraft el diámetro, la holgura diametral y la geometría; diferencia holgura diametral de holgura por lado (la primera es el doble de la segunda en un círculo).</li><li>Imprime las variantes en una misma placa, con el mismo material, orientación prevista y perfil de Bambu Studio.</li><li>Comprueba las medidas, inserción, extracción, retención y desgaste tras varios ciclos.</li><li>Registra la variante y tolerancia que mejor funcionen en tu Bambu Lab A1 Combo.</li></ol>
 <p class="nt">Las geometrías y tolerancias son orientativas: dependen de material, orientación, calibración, altura de capa y uso. Las ilustraciones son esquemáticas, no planos a escala.</p>
 </section>
-<footer class="site-footer" aria-label="Créditos y apoyo al proyecto"><span>3D Lab · <a href="https://bytehive.pro" target="_blank" rel="noopener noreferrer">by Bytehive Lab</a></span><span class="sep" aria-hidden="true">·</span><a href="https://ko-fi.com/arielgoyoaga" target="_blank" rel="noopener noreferrer">☕ Invítame un café</a></footer>
+<footer class="site-footer" aria-label="Créditos y apoyo al proyecto"><span>3D Lab · <a href="https://bytehive.pro" target="_blank" rel="noopener noreferrer">by bytehive lab</a></span><span class="sep" aria-hidden="true">·</span><a href="https://ko-fi.com/arielgoyoaga" target="_blank" rel="noopener noreferrer">☕ Invítame un café</a></footer>
 </main>
 </div>
 <div id="toast" role="status"></div>

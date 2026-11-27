@@ -1,12 +1,14 @@
 <div align="center">
 
+<img src="assets/bytehive-lab-dark.svg" width="240" alt="bytehive lab">
+
 # 🛠️ 3D Lab · Recursos CAD
 
 ### Aprende a diseñar. Diseña para imprimir.
 
 **Biblioteca visual de conceptos CAD y soluciones para impresión 3D FDM.**
 
-[![Abrir catálogo](https://img.shields.io/static/v1?label=&message=ABRIR%20CATALOGO&color=0B6E7F&style=for-the-badge)](https://goyoaga.github.io/3d-lab-recursos/)
+[![Abrir catálogo](https://img.shields.io/static/v1?label=&message=ABRIR%20CATALOGO&color=0CC0DF&style=for-the-badge)](https://goyoaga.github.io/3d-lab-recursos/)
 [![Apoyar en Ko-fi](https://img.shields.io/static/v1?label=&message=INVITAME%20UN%20CAFE&color=FF5E5B&style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/arielgoyoaga)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
@@ -47,7 +49,7 @@ Una referencia práctica para aprender a identificar, nombrar y aplicar geometr�
 
 **[goyoaga.github.io/3d-lab-recursos](https://goyoaga.github.io/3d-lab-recursos/)**
 
-No requiere cuenta, instalación, servidor de aplicaciones ni base de datos. Para consultar la versión local, descarga el archivo y ábrelo en un navegador moderno; los visores de archivos de terceros pueden bloquear JavaScript.
+No requiere cuenta, instalación, servidor de aplicaciones ni base de datos. Para consultar la versión local, descarga el repositorio completo y abre index.html en un navegador moderno; los visores de archivos de terceros pueden bloquear JavaScript.
 
 ## 🧰 Ejecutarlo en local
 
@@ -63,6 +65,8 @@ Abre `index.html` directamente en tu navegador. No necesitas Node.js ni instalar
 ```text
 3d-lab-recursos/
 ├── index.html    # Interfaz, estilos, catálogo SVG y lógica JavaScript
+├── assets/
+│   └── bytehive-lab-dark.svg  # Variante aprobada, trazada desde la referencia visual
 └── README.md     # Documentación del proyecto
 ```
 
@@ -84,6 +88,6 @@ El catálogo es de acceso público. No se ha establecido todavía una licencia e
 
 **3D Lab** · Diseño, ingeniería y fabricación asistida por IA
 
-[by Bytehive Lab](https://bytehive.pro) · [Apoya el proyecto en Ko-fi](https://ko-fi.com/arielgoyoaga)
+[by bytehive lab](https://bytehive.pro) · [Apoya el proyecto en Ko-fi](https://ko-fi.com/arielgoyoaga)
 
 </div>
